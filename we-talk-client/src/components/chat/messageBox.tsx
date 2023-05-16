@@ -1,6 +1,6 @@
 /* eslint-disable arrow-body-style */
 import { FC } from 'react';
-import { MessageContainer, RecipientMessageStyle, SelfMessageStyle } from './chat.style';
+import { MessageContainer, RecipientMessageStyle, SelfMessageStyle } from './messageBox.style';
 
 export const SelfMessage: FC = () => (
   <div style={{

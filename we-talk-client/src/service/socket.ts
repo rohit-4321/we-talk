@@ -4,9 +4,9 @@ import {
   ServerToClientEvents,
   ClientToServerEvents,
   UserDetailsData,
-} from '../../../../shared/socketInterface/SharedSocketEvent';
+} from '../../../shared/socketInterface/SharedSocketEvent';
 
-import { SERVER_URL } from '../../constants';
+import { SERVER_URL } from '../constants';
 
 class SocketFactory {
   private static instance: SocketFactory;

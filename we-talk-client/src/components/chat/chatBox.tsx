@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import {
   ChatBoxContainer,
-} from './chat.style';
+} from './chatBox.style';
 import InputBox from './InputBox';
 import { MessageBox } from './messageBox';
 

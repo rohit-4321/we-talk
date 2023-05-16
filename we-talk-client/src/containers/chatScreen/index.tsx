@@ -2,8 +2,8 @@ import {
   useCallback, useEffect, useRef, useState,
 } from 'react';
 import { useLocation } from 'react-router-dom';
-import SocketFactory from '../service/socket';
-import ChatBox from './chatBox';
+import SocketFactory from '../../service/socket';
+import ChatBox from '../../components/chat/chatBox';
 
 const ChatScreen = () => {
   const socketRef = useRef(SocketFactory.getInstance());

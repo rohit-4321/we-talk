@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import {
   InputContainer, MessageInput, SendButton,
-} from './chat.style';
+} from './InputBox.style';
 
 const InputBox = () => {
   const [message, setMessage] = useState<string>('');
