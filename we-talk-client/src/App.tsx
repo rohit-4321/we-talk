@@ -1,12 +1,14 @@
-// import { useState } from 'react';
-function App () {
-  // const [count, setCount] = useState(0);
+import { BrowserRouter } from 'react-router-dom';
+import './App.css';
+import Routes from './containers/routes';
 
+function App() {
   return (
-    <>
-      <h1>Hello World</h1>
-      <h2>I am Rohit.</h2>
-    </>
+    <BrowserRouter>
+      <div className="App">
+        <Routes />
+      </div>
+    </BrowserRouter>
   );
 }
 
