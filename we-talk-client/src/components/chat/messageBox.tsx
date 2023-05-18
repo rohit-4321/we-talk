@@ -1,32 +1,61 @@
-/* eslint-disable arrow-body-style */
-import { FC } from 'react';
+/* eslint-disable react/no-array-index-key */
+import {
+  FC, useCallback, useEffect, useRef,
+} from 'react';
+import { useRecoilState } from 'recoil';
 import { MessageContainer, RecipientMessageStyle, SelfMessageStyle } from './messageBox.style';
+import { AllMessageAtom } from '../../global/chat';
+import SocketFactory from '../../service/socket';
 
-export const SelfMessage: FC = () => (
+const SelfMessage: FC<{ message: string }> = ({ message }) => (
   <div style={{
     display: 'flex',
     margin: '7px 10px',
   }}
   >
-    <SelfMessageStyle>Message Self</SelfMessageStyle>
+    <SelfMessageStyle>{ message }</SelfMessageStyle>
   </div>
 );
 
-export const RecipientMessage: FC = () => (
+const RecipientMessage: FC<{ message: string }> = ({ message }) => (
   <div style={{
     display: 'flex',
     margin: '7px 10px',
   }}
   >
-    <RecipientMessageStyle>Message Recipient</RecipientMessageStyle>
+    <RecipientMessageStyle>{message}</RecipientMessageStyle>
   </div>
 );
-export const MessageBox: FC = () => (
-  <MessageContainer>
-    {
-      [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 23, 23, 45, 53, 56].map((i) => {
-        return i % 2 === 0 ? <SelfMessage key={i} /> : <RecipientMessage key={i} />;
-      })
-    }
-  </MessageContainer>
-);
+
+export const MessageBox: FC = () => {
+  const [allMessage, setAllMessage] = useRecoilState(AllMessageAtom);
+
+  const socketRef = useRef(SocketFactory.getInstance());
+
+  const onMessage = useCallback(() => (socketRef.current.addprivateMessageEvent((chatData) => {
+    setAllMessage((msgs) => [...msgs, {
+      message: chatData.message,
+      isSelf: false,
+    }]);
+  })), [setAllMessage]);
+
+  useEffect(() => {
+    const onMessageCleanUp = onMessage();
+    return () => {
+      onMessageCleanUp();
+    };
+  }, [onMessage]);
+
+  return (
+    <MessageContainer>
+      {
+        allMessage.map((chatMsg, i) => (
+          chatMsg.isSelf ? <SelfMessage key={i} message={chatMsg.message} />
+            : <RecipientMessage message={chatMsg.message} key={i} />
+        ))
+      }
+    </MessageContainer>
+  );
+};
+
+export default MessageBox;

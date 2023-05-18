@@ -8,6 +8,7 @@ const app = express();
 
 const server = http.createServer(app);
 
+
 const io = new Server<
 ClientToServerEvents,
 ServerToClientEvents,
@@ -47,6 +48,15 @@ io.on('connection', (socket) => {
       socketQueue.push(socket);
     }
     console.log(userData);
+  })
+
+  socket.on('privateMessage', (chatData) => {
+    if(socket.data.recipientId){
+      socket.to(socket.data.recipientId).emit('privateMessage' , {
+        message: chatData.message
+      })
+    }
+    
   })
 
   socket.on('disconnect', () => {
