@@ -1,8 +1,9 @@
-import { ChatData, RecipientConnectData, UserDetailsData } from "./types";
+import { ChatData, RecipientConnectData, RecipientDisconnectData, UserDetailsData } from "./types";
 
 export interface ServerToClientEvents {
-  recipientConnect: ( data: RecipientConnectData) => void
+  recipientConnect: ( data: RecipientConnectData) => void;
   privateMessage: (chatData : ChatData) => void;
+  recipientDisconnected: (data: RecipientDisconnectData) => void;
 }
 
 export interface ClientToServerEvents {

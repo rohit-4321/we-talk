@@ -1,7 +1,8 @@
 export interface ISocketData{
   userName: string,
   recipientId: string,
-  recipientUserName: string
+  recipientUserName: string,
+  isRecipientOnline: boolean,
 }
 
 

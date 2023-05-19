@@ -8,3 +8,6 @@ export interface RecipientConnectData {
 export interface UserDetailsData {
   userName: string 
 } 
+export interface RecipientDisconnectData {
+  userName: string
+}

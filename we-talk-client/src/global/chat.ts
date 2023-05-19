@@ -7,13 +7,5 @@ export type IChatMessage = {
 
 export const AllMessageAtom = atom<IChatMessage[]>({
   key: 'chatMessage',
-  default: [{
-    message: 'Hello boys',
-    isSelf: true,
-  },
-  {
-    message: 'Hello boys',
-    isSelf: false,
-  },
-  ],
+  default: [],
 });

@@ -7,6 +7,7 @@ import {
   UserDetailsData,
   RecipientConnectData,
   ChatData,
+  RecipientDisconnectData,
 } from '../../../shared/socketInterface/types';
 
 import { SERVER_URL } from '../constants';
@@ -58,6 +59,15 @@ class SocketFactory {
     this.socket.on('privateMessage', callback);
     return () => {
       this.socket.off('privateMessage', callback);
+    };
+  }
+
+  public addRecipientDisconnectedEvent(
+    callback: (data: RecipientDisconnectData) => void,
+  ): () => void {
+    this.socket.on('recipientDisconnected', callback);
+    return () => {
+      this.socket.off('recipientDisconnected', callback);
     };
   }
 

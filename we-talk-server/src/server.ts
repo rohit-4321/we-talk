@@ -27,16 +27,20 @@ app.get('/', (req, res) => {
 
 io.on('connection', (socket) => {
   console.log(`Socket connected with id ${socket.id}`);
+
   socket.on('userDetails', (userData) => {
     socket.data.userName = userData.userName;
     console.log(socketQueue.length);
     if(socketQueue.length !== 0) {
       if(socket.id !== socketQueue[0].id){
         const queueSocket = socketQueue.shift();
+
         queueSocket.data.recipientId = socket.id;
         queueSocket.data.recipientUserName = socket.data.userName;
+
         socket.data.recipientUserName = queueSocket.data.userName;
         socket.data.recipientId = queueSocket.id;
+
         socket.emit('recipientConnect', {
           recipientName: queueSocket.data.userName
         });
@@ -51,6 +55,8 @@ io.on('connection', (socket) => {
   })
 
   socket.on('privateMessage', (chatData) => {
+    console.log(`First id ${socket.data.recipientId}`);
+    console.log(`Second id ${io.sockets.sockets.get(socket.data.recipientId).id}`);
     if(socket.data.recipientId){
       socket.to(socket.data.recipientId).emit('privateMessage' , {
         message: chatData.message
@@ -60,6 +66,16 @@ io.on('connection', (socket) => {
   })
 
   socket.on('disconnect', () => {
+    if(socket.data.recipientId) {
+      const recipientSocket = io.sockets.sockets.get(socket.data.recipientId);
+      socket.to(socket.data.recipientId).emit('recipientDisconnected', {
+        userName: socket.data.userName
+      })
+      socket.data.recipientId='';
+      socket.data.recipientUserName=''; 
+      recipientSocket.data.recipientId='';
+      recipientSocket.data.recipientUserName='';
+    }
     console.log(`Socket disconnected with id ${socket.id}`);
   });
 });
