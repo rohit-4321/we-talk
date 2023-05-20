@@ -1,11 +1,9 @@
 /* eslint-disable react/no-array-index-key */
 import {
-  FC, useCallback, useEffect, useRef,
+  FC,
 } from 'react';
-import { useRecoilState } from 'recoil';
 import { MessageContainer, RecipientMessageStyle, SelfMessageStyle } from './messageBox.style';
-import { AllMessageAtom } from '../../global/chat';
-import SocketFactory from '../../service/socket';
+import { IChatMessage } from '../../global/chat';
 
 const SelfMessage: FC<{ message: string }> = ({ message }) => (
   <div style={{
@@ -27,35 +25,20 @@ const RecipientMessage: FC<{ message: string }> = ({ message }) => (
   </div>
 );
 
-export const MessageBox: FC = () => {
-  const [allMessage, setAllMessage] = useRecoilState(AllMessageAtom);
-
-  const socketRef = useRef(SocketFactory.getInstance());
-
-  const onMessage = useCallback(() => (socketRef.current.addprivateMessageEvent((chatData) => {
-    setAllMessage((msgs) => [...msgs, {
-      message: chatData.message,
-      isSelf: false,
-    }]);
-  })), [setAllMessage]);
-
-  useEffect(() => {
-    const onMessageCleanUp = onMessage();
-    return () => {
-      onMessageCleanUp();
-    };
-  }, [onMessage]);
-
-  return (
-    <MessageContainer>
-      {
+interface MessageBoxProps {
+  allMessage: IChatMessage[],
+}
+export const MessageBox: FC<MessageBoxProps> = ({
+  allMessage,
+}) => (
+  <MessageContainer>
+    {
         allMessage.map((chatMsg, i) => (
           chatMsg.isSelf ? <SelfMessage key={i} message={chatMsg.message} />
             : <RecipientMessage message={chatMsg.message} key={i} />
         ))
       }
-    </MessageContainer>
-  );
-};
+  </MessageContainer>
+);
 
 export default MessageBox;

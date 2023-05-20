@@ -1,12 +1,11 @@
 import styled from 'styled-components';
 
 export const InputContainer = styled.div`
-width: 100%;
-flex: 5;
-background-color: red;
-
+/* padding: 10px 0px; */
 display: flex;
+height: 100%;
 flex-direction: row;
+background-color: antiquewhite;
 gap: 5px;
 `;
 

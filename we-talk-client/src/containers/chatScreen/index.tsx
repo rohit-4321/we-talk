@@ -3,7 +3,7 @@ import {
 } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import SocketFactory from '../../service/socket';
-import ChatBox from '../../components/chat/chatBox';
+import ChatBox from './chatBox';
 import LoadingScreen from '../../components/loading/loading';
 
 const ChatScreen = () => {

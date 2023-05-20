@@ -1,28 +1,13 @@
-import { useCallback, useRef, useState } from 'react';
-import { useRecoilState } from 'recoil';
+import { useState, FC } from 'react';
 import {
   InputContainer, MessageInput, SendButton,
 } from './InputBox.style';
-import { AllMessageAtom } from '../../global/chat';
-import SocketFactory from '../../service/socket';
 
-const InputBox = () => {
+interface InputBoxProps {
+  handleOnSend: (inputMessage: string) => void,
+}
+const InputBox:FC<InputBoxProps> = ({ handleOnSend }) => {
   const [message, setMessage] = useState<string>('');
-
-  const [, setAllMessages] = useRecoilState(AllMessageAtom);
-
-  const socketRef = useRef(SocketFactory.getInstance());
-
-  const handleOnSend = useCallback(() => {
-    setAllMessages((msgList) => [...msgList, {
-      message,
-      isSelf: true,
-    }]);
-    socketRef.current.emitPrivateMessage({
-      message,
-    });
-    setMessage('');
-  }, [message, setAllMessages]);
 
   return (
     <InputContainer>
@@ -37,7 +22,8 @@ const InputBox = () => {
         type="button"
         onClick={() => {
           if (message !== '') {
-            handleOnSend();
+            handleOnSend(message);
+            setMessage('');
           }
         }}
       >
