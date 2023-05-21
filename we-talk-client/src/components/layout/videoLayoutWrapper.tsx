@@ -12,6 +12,8 @@ height: 100%;
 `;
 const VideoPane = styled.div`
 flex: 1;
+border: 1px solid rgba(255, 255, 255, 0.12);
+
 `;
 const VideoLayoutWrapper:FC<VideoLayoutWrapperParams> = ({ children }) => {
   const [Video1, Video2] = children;

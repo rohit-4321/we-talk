@@ -9,6 +9,7 @@ const SplitChatScreen = styled.div`
 width: 100%;
 height: 100vh;
 background-color: transparent;
+/* background-image: linear-gradient(to right, #003c58, #063450, #0b2c47, #0d243e, #0e1c35); */
 display: flex;
 /* gap: 10px; */
 `;
