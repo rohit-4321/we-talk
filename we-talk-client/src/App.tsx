@@ -1,14 +1,17 @@
 import { BrowserRouter } from 'react-router-dom';
 import './App.css';
-import Routes from './containers/routes';
+import { RecoilRoot } from 'recoil';
+import Routes from './routes';
 
 function App() {
   return (
-    <BrowserRouter>
-      <div className="App">
-        <Routes />
-      </div>
-    </BrowserRouter>
+    <RecoilRoot>
+      <BrowserRouter>
+        <div className="App">
+          <Routes />
+        </div>
+      </BrowserRouter>
+    </RecoilRoot>
   );
 }
 

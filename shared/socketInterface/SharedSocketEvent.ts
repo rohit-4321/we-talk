@@ -1,16 +1,13 @@
+import { ChatData, RecipientConnectData, RecipientDisconnectData, UserDetailsData } from "./types";
 
-// When connection Establised with another user...
-export interface RecipientConnectData {
-  recipientName: string,
-}
 export interface ServerToClientEvents {
-  recipientConnect: ( data: RecipientConnectData) => void
+  recipientConnect: ( data: RecipientConnectData) => void;
+  privateMessage: (chatData : ChatData) => void;
+  recipientDisconnected: (data: RecipientDisconnectData) => void;
 }
 
-// when connection will establise with server we will have to send some data to server..
-export interface UserDetailsData {
-  userName: string 
-} 
 export interface ClientToServerEvents {
   userDetails: (userData: UserDetailsData) => void;
-}
+  privateMessage: (chatData : ChatData) => void;
+};
+

@@ -1,6 +1,6 @@
 import { useRoutes } from 'react-router-dom';
-import SearchContainer from '../searchScreen';
-import ChatScreen from '../chatScreen';
+import SearchContainer from '../containers/searchScreen';
+import ChatScreen from '../containers/chatScreen';
 
 const Routes = () => {
   const element = useRoutes([

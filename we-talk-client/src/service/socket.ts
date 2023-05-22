@@ -1,12 +1,16 @@
 import { Socket, io } from 'socket.io-client';
 import {
-  RecipientConnectData,
   ServerToClientEvents,
   ClientToServerEvents,
+} from '../../../shared/socketInterface/SharedSocketEvent';
+import {
   UserDetailsData,
-} from '../../../../shared/socketInterface/SharedSocketEvent';
+  RecipientConnectData,
+  ChatData,
+  RecipientDisconnectData,
+} from '../../../shared/socketInterface/types';
 
-import { SERVER_URL } from '../../constants';
+import { SERVER_URL } from '../constants';
 
 class SocketFactory {
   private static instance: SocketFactory;
@@ -51,9 +55,29 @@ class SocketFactory {
     };
   }
 
+  public addprivateMessageEvent(callback: (chatData: ChatData) => void): () => void {
+    this.socket.on('privateMessage', callback);
+    return () => {
+      this.socket.off('privateMessage', callback);
+    };
+  }
+
+  public addRecipientDisconnectedEvent(
+    callback: (data: RecipientDisconnectData) => void,
+  ): () => void {
+    this.socket.on('recipientDisconnected', callback);
+    return () => {
+      this.socket.off('recipientDisconnected', callback);
+    };
+  }
+
   // Emitter...
   public emitUserDetails(data: UserDetailsData): void {
     this.socket.emit('userDetails', data);
+  }
+
+  public emitPrivateMessage(msgData: ChatData): void {
+    this.socket.emit('privateMessage', msgData);
   }
 }
 
