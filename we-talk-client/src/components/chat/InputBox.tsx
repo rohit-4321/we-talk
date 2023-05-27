@@ -2,7 +2,6 @@ import { useState, FC } from 'react';
 import {
   InputContainer, MessageInput, SendButton,
 } from './InputBox.style';
-import SendSvg from '../../assets/sendSvg.svg';
 
 interface InputBoxProps {
   handleOnSend: (inputMessage: string) => void,
@@ -32,14 +31,6 @@ const InputBox:FC<InputBoxProps> = ({ handleOnSend }) => {
         type="submit"
         onClick={onHandleClick}
       >
-        {/* <img
-          src={SendSvg}
-          alt=""
-          style={{
-            width: '100px',
-            height: '100%',
-          }}
-        /> */}
         Send
       </SendButton>
     </InputContainer>

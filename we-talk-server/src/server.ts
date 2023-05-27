@@ -42,10 +42,12 @@ io.on('connection', (socket) => {
         socket.data.recipientId = queueSocket.id;
 
         socket.emit('recipientConnect', {
-          recipientName: queueSocket.data.userName
+          recipientName: queueSocket.data.userName,
+          isCaller: true
         });
         queueSocket.emit('recipientConnect', {
-          recipientName: socket.data.userName
+          recipientName: socket.data.userName,
+          isCaller: false,
         })
       }
     }else {
@@ -62,7 +64,24 @@ io.on('connection', (socket) => {
         message: chatData.message
       })
     }
-    
+  })
+
+  socket.on('sdpOffer', (offer) => {
+    if(socket.data.recipientId){
+      socket.to(socket.data.recipientId).emit('sdpOffer', offer);
+    }
+  })
+
+  socket.on('sdpAnswer', (ans) => {
+    if(socket.data.recipientId){
+      socket.to(socket.data.recipientId).emit('sdpAnswer', ans);
+    }
+  })
+
+  socket.on('iceCandidate', (cad) => {
+    if(socket.data.recipientId){
+      socket.to(socket.data.recipientId).emit('iceCandidate', cad);
+    }
   })
 
   socket.on('disconnect', () => {

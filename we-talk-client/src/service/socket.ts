@@ -71,6 +71,33 @@ class SocketFactory {
     };
   }
 
+  public addOnSdpOfferEvent(
+    callback: (data: RTCSessionDescription) => void,
+  ): () => void {
+    this.socket.on('sdpOffer', callback);
+    return () => {
+      this.socket.off('sdpOffer', callback);
+    };
+  }
+
+  public addOnSdpAnswer(
+    callback: (ans: RTCSessionDescription) => void,
+  ): () => void {
+    this.socket.on('sdpAnswer', callback);
+    return () => {
+      this.socket.off('sdpAnswer', callback);
+    };
+  }
+
+  public addOnIceCandidateEvent(
+    callback: (cad: RTCIceCandidate) => void,
+  ): () => void {
+    this.socket.on('iceCandidate', callback);
+    return () => {
+      this.socket.off('iceCandidate', callback);
+    };
+  }
+
   // Emitter...
   public emitUserDetails(data: UserDetailsData): void {
     this.socket.emit('userDetails', data);
@@ -78,6 +105,18 @@ class SocketFactory {
 
   public emitPrivateMessage(msgData: ChatData): void {
     this.socket.emit('privateMessage', msgData);
+  }
+
+  public emitSdpOffer(offer: RTCSessionDescription): void {
+    this.socket.emit('sdpOffer', offer);
+  }
+
+  public emitIceCandidate(cad: RTCIceCandidate): void {
+    this.socket.emit('iceCandidate', cad);
+  }
+
+  public emitSdpAnswer(ans: RTCSessionDescription): void {
+    this.socket.emit('sdpAnswer', ans);
   }
 }
 

@@ -16,17 +16,28 @@ const SearchContainer: FC = () => {
             setUserName(e.target.value);
           }}
         />
-        <button type="button">
-          <Link
-            to="chat"
-            state={{
-              myName: userName,
+        <Link
+          to="chat"
+          state={{
+            myName: userName,
+          }}
+          style={{
+            textDecoration: 'none',
+            color: 'inherit',
+          }}
+        >
+          <button
+            type="button"
+            style={{
+              width: '100%',
+              height: '100%',
             }}
-            style={{ textDecoration: 'none', color: 'inherit' }}
           >
+
             Search
-          </Link>
-        </button>
+          </button>
+
+        </Link>
       </InputBox>
     </SearchScreenBackground>
   );
