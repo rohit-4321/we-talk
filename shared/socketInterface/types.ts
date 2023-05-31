@@ -4,6 +4,7 @@ export interface ChatData {
 // When connection Establised with another user...
 export interface RecipientConnectData {
   recipientName: string,
+  isCaller: boolean,
 }
 export interface UserDetailsData {
   userName: string 

@@ -1,17 +1,19 @@
 import {
-  useCallback, useEffect, useRef, useState,
+  useCallback, useEffect, useRef,
 } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
 import SocketFactory from '../../service/socket';
 import ChatBox from './chatBox';
 import LoadingScreen from '../../components/loading/loading';
+import { RecipientDataAtom } from '../../global/chat';
 
 const ChatScreen = () => {
   const socketRef = useRef(SocketFactory.getInstance());
   const location = useLocation();
   const navigate = useNavigate();
   const { myName } = location.state;
-  const [recipientName, setRecipientName] = useState<string | null>(null);
+  const [recipientData, setRecipientData] = useRecoilState(RecipientDataAtom);
 
   const onConnect = useCallback(() => (
     socketRef.current.addConnectEvent(() => {
@@ -23,10 +25,9 @@ const ChatScreen = () => {
 
   const onRecipientFound = useCallback(() => (
     socketRef.current.addrecipientConnectEvent((data) => {
-      // Connected with the recipient
-      setRecipientName(data.recipientName);
+      setRecipientData(data);
     })
-  ), [setRecipientName]);
+  ), [setRecipientData]);
 
   const onRecipientDisconnect = useCallback(() => (
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -46,11 +47,11 @@ const ChatScreen = () => {
       onRecipientFoundCleanUp();
       socket.disConnectSocket();
       onRecipientDisconnectCleanUp();
-      setRecipientName(null);
+      setRecipientData(null);
     };
-  }, [onConnect, onRecipientFound, onRecipientDisconnect]);
+  }, [onConnect, onRecipientFound, onRecipientDisconnect, setRecipientData]);
 
-  return recipientName === null ? <LoadingScreen /> : <ChatBox />;
+  return recipientData === null ? <LoadingScreen /> : <ChatBox />;
 };
 
 export default ChatScreen;
