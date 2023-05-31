@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
-interface ChatLayoutWrapperProps {
+interface PanelWrapperProps {
   children: [React.ReactNode, React.ReactNode];
 
 }
@@ -19,7 +19,7 @@ flex: 3;
 const PaneChat = styled.div`
 flex: 7;
 `;
-const ChatLayoutWrapper:FC<ChatLayoutWrapperProps> = ({ children }) => {
+const PanelWrapper:FC<PanelWrapperProps> = ({ children }) => {
   const [Left, Right] = children;
   return (
     <SplitChatScreen>
@@ -32,4 +32,4 @@ const ChatLayoutWrapper:FC<ChatLayoutWrapperProps> = ({ children }) => {
     </SplitChatScreen>
   );
 };
-export default ChatLayoutWrapper;
+export default PanelWrapper;
