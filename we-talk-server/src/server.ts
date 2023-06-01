@@ -8,7 +8,6 @@ const app = express();
 
 const server = http.createServer(app);
 
-
 const io = new Server<
 ClientToServerEvents,
 ServerToClientEvents,
@@ -25,35 +24,34 @@ app.get('/', (req, res) => {
   res.send('Hello, world!....');
 });
 
+const tryConnect = () => {
+  if (socketQueue.length >= 2) {
+    const sk1 = socketQueue.shift();
+    const sk2 = socketQueue.shift();
+
+    sk1.data.recipientId = sk2.id;
+    sk1.data.recipientUserName = sk2.data.userName;
+
+    sk2.data.recipientUserName = sk1.data.userName;
+    sk2.data.recipientId = sk1.id;
+
+    sk2.emit('recipientConnect', {
+      recipientName: sk1.data.userName,
+      isCaller: true
+    });
+    sk1.emit('recipientConnect', {
+      recipientName: sk2.data.userName,
+      isCaller: false,
+    })
+  }
+};
 io.on('connection', (socket) => {
   console.log(`Socket connected with id ${socket.id}`);
 
   socket.on('userDetails', (userData) => {
     socket.data.userName = userData.userName;
-    console.log(socketQueue.length);
-    if(socketQueue.length !== 0) {
-      if(socket.id !== socketQueue[0].id){
-        const queueSocket = socketQueue.shift();
-
-        queueSocket.data.recipientId = socket.id;
-        queueSocket.data.recipientUserName = socket.data.userName;
-
-        socket.data.recipientUserName = queueSocket.data.userName;
-        socket.data.recipientId = queueSocket.id;
-
-        socket.emit('recipientConnect', {
-          recipientName: queueSocket.data.userName,
-          isCaller: true
-        });
-        queueSocket.emit('recipientConnect', {
-          recipientName: socket.data.userName,
-          isCaller: false,
-        })
-      }
-    }else {
-      socketQueue.push(socket);
-    }
-    console.log(userData);
+    socketQueue.push(socket);
+    tryConnect();
   })
 
   socket.on('privateMessage', (chatData) => {
@@ -91,9 +89,13 @@ io.on('connection', (socket) => {
         userName: socket.data.userName
       })
       socket.data.recipientId='';
-      socket.data.recipientUserName=''; 
+      socket.data.recipientUserName='';
       recipientSocket.data.recipientId='';
       recipientSocket.data.recipientUserName='';
+    }
+    const indexInQueue = socketQueue.indexOf(socket);
+    if (indexInQueue !== -1){
+      socketQueue.splice(indexInQueue, 1);
     }
     console.log(`Socket disconnected with id ${socket.id}`);
   });
