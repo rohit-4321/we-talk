@@ -4,11 +4,9 @@ import {
 import { useRecoilState } from 'recoil';
 import InputBox from '../../components/chat/InputBox';
 import { MessageBox } from '../../components/chat/messageBox';
-import ChatLayout from '../../components/layout/ChatLayoutWrapper';
 import { AllMessageAtom } from '../../global/chat';
 import SocketFactory from '../../service/socket';
 import ChatContainerWrapper from '../../components/layout/ChatContainerWrapper';
-import VideoPane from './VideoPane';
 
 const ChatBox: FC = () => {
   const socketRef = useRef(SocketFactory.getInstance());
@@ -40,13 +38,10 @@ const ChatBox: FC = () => {
   }, [setAllMessage]);
 
   return (
-    <ChatLayout>
-      <VideoPane socketRef={socketRef} />
-      <ChatContainerWrapper>
-        <MessageBox allMessage={allMessage} />
-        <InputBox handleOnSend={handleOnSend} />
-      </ChatContainerWrapper>
-    </ChatLayout>
+    <ChatContainerWrapper>
+      <MessageBox allMessage={allMessage} />
+      <InputBox handleOnSend={handleOnSend} />
+    </ChatContainerWrapper>
   );
 };
 export default ChatBox;
