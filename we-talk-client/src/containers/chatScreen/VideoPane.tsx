@@ -14,8 +14,8 @@ const VideoPane: FC<IVideoPaneProps> = ({
     <VideoLayoutWrapper>
       <video
         style={{
-          width: '400px',
-          height: '400px',
+          width: '100%',
+          height: '100%',
         }}
         ref={myStream}
         muted
@@ -23,8 +23,8 @@ const VideoPane: FC<IVideoPaneProps> = ({
       />
       <video
         style={{
-          width: '400px',
-          height: '400px',
+          width: '100%',
+          height: '100%',
         }}
         ref={recipientStream}
         muted

@@ -1,4 +1,9 @@
-import { ChatData, RecipientConnectData, RecipientDisconnectData, UserDetailsData } from "./types";
+import { ChatData,
+  PostConnectinfo,
+  RecipientConnectData,
+  RecipientDisconnectData,
+  UserDetailsData
+} from "./types";
 
 export interface ServerToClientEvents {
   recipientConnect: ( data: RecipientConnectData) => void;
@@ -7,7 +12,7 @@ export interface ServerToClientEvents {
   sdpOffer: (offer: RTCSessionDescription) => void;
   sdpAnswer: (ans: RTCSessionDescription) => void;
   iceCandidate: (cad: RTCIceCandidate) => void;
-
+  postConnectInfo: (info: PostConnectinfo) => void;
 }
 
 export interface ClientToServerEvents {
@@ -16,5 +21,6 @@ export interface ClientToServerEvents {
   sdpOffer: (offer: RTCSessionDescription) => void;
   sdpAnswer: (ans: RTCSessionDescription) => void;
   iceCandidate: (cad: RTCIceCandidate) => void;
+  postConnectInfo: (info: PostConnectinfo) => void;
 };
 

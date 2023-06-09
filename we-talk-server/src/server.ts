@@ -54,6 +54,12 @@ io.on('connection', (socket) => {
     tryConnect();
   })
 
+  socket.on('postConnectInfo', (info) => {
+    if(socket.data.recipientId){
+      socket.to(socket.data.recipientId).emit('postConnectInfo', info);
+    }
+  })
+
   socket.on('privateMessage', (chatData) => {
     console.log(`First id ${socket.data.recipientId}`);
     console.log(`Second id ${io.sockets.sockets.get(socket.data.recipientId).id}`);

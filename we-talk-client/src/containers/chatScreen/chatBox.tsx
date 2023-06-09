@@ -7,6 +7,7 @@ import { MessageBox } from '../../components/chat/messageBox';
 import { AllMessageAtom } from '../../global/chat';
 import SocketFactory from '../../service/socket';
 import ChatContainerWrapper from '../../components/layout/ChatContainerWrapper';
+import ChatHeader from './ChatHeader';
 
 const ChatBox: FC = () => {
   const socketRef = useRef(SocketFactory.getInstance());
@@ -39,6 +40,7 @@ const ChatBox: FC = () => {
 
   return (
     <ChatContainerWrapper>
+      <ChatHeader />
       <MessageBox allMessage={allMessage} />
       <InputBox handleOnSend={handleOnSend} />
     </ChatContainerWrapper>

@@ -6,11 +6,12 @@ import { useRecoilState } from 'recoil';
 import SocketFactory from '../../service/socket';
 import ChatBox from './chatBox';
 import LoadingScreen from '../../components/loading/loading';
-import { RecipientDataAtom } from '../../global/chat';
+import { PostConnectInfoAtom, RecipientDataAtom } from '../../global/chat';
 import PanelWrapper from '../../components/layout/PanelWrapper';
 import VideoPane from './VideoPane';
 import RTCPeer from '../../service/RTCPeer';
 import { askMedia } from '../../utils/navigator';
+import { AvatarNameLorelei } from '../../constants';
 
 const ChatScreen = () => {
   const rtcPeer = useRef<RTCPeer | null>(null);
@@ -19,8 +20,9 @@ const ChatScreen = () => {
   const socketRef = useRef(SocketFactory.getInstance());
   const location = useLocation();
   const navigate = useNavigate();
-  const { myName } = location.state;
+  const { myName, avatarIndex } = location.state;
   const [recipientData, setRecipientData] = useRecoilState(RecipientDataAtom);
+  const [, setPostInfo] = useRecoilState(PostConnectInfoAtom);
   const clearNavigatorMedia = useRef<() => void>();
   const rtcHandlerCleanUp = useRef<() => void>();
 
@@ -57,6 +59,13 @@ const ChatScreen = () => {
   const onRecipientFound = useCallback(() => {
     const onRecipientFoundCleanUp = socketRef.current.addrecipientConnectEvent((data) => {
       setRecipientData(data);
+      socketRef.current.emitPostConnectInfo({
+        info: {
+          avatar: {
+            seed: AvatarNameLorelei[avatarIndex],
+          },
+        },
+      });
       if (data.isCaller) {
         rtcHandlerCleanUp.current = createPeer();
         askMedia()
@@ -72,7 +81,7 @@ const ChatScreen = () => {
     return () => {
       onRecipientFoundCleanUp();
     };
-  }, [createPeer, setRecipientData]);
+  }, [avatarIndex, createPeer, setRecipientData]);
 
   const onRecipientDisconnect = useCallback(() => (
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -84,11 +93,18 @@ const ChatScreen = () => {
     })
   ), [navigate]);
 
+  const onPostConnectInfoCall = useCallback(() => (
+    socketRef.current.addOnPostConnectInfoEvent((info) => {
+      setPostInfo(info);
+    })
+  ), [setPostInfo]);
+
   useEffect(() => {
     const socket = socketRef.current;
     const onConnectCleanUp = onConnect();
     const onRecipientFoundCleanUp = onRecipientFound();
     const onRecipientDisconnectCleanUp = onRecipientDisconnect();
+    const onPostConnectInfoCleanUp = onPostConnectInfoCall();
     const addOnSdpOfferEventCleanUp = socketRef.current.addOnSdpOfferEvent((incomingOffer) => {
       rtcHandlerCleanUp.current = createPeer();
       rtcPeer.current?.setRemoteOffer(incomingOffer)
@@ -125,6 +141,7 @@ const ChatScreen = () => {
     return () => {
       onConnectCleanUp();
       onRecipientFoundCleanUp();
+      onPostConnectInfoCleanUp();
       socket.disConnectSocket();
       onRecipientDisconnectCleanUp();
 
@@ -144,7 +161,8 @@ const ChatScreen = () => {
     onRecipientFound,
     onRecipientDisconnect,
     setRecipientData,
-    createPeer]);
+    createPeer,
+    onPostConnectInfoCall]);
 
   return recipientData === null ? <LoadingScreen /> : (
     <PanelWrapper>

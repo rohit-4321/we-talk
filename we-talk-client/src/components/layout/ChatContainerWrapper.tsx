@@ -2,7 +2,7 @@ import { FC, ReactNode } from 'react';
 import styled from 'styled-components';
 
 interface ChatContainerWrapperParams {
-  children: [ReactNode, ReactNode]
+  children: [ReactNode, ReactNode, ReactNode]
 }
 
 const ChatContainerSplit = styled.div`
@@ -23,10 +23,17 @@ const InputPane = styled.div`
 flex: 5;
 width: 100%;
 `;
+const ChatHeader = styled.div`
+flex: 5;
+width: 100%;
+`;
 const ChatContainerWrapper: FC<ChatContainerWrapperParams> = ({ children }) => {
-  const [messageComp, inputComp] = children;
+  const [header, messageComp, inputComp] = children;
   return (
     <ChatContainerSplit>
+      <ChatHeader>
+        {header}
+      </ChatHeader>
       <ChatPane>
         {messageComp}
       </ChatPane>
