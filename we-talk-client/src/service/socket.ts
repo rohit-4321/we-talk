@@ -8,6 +8,7 @@ import {
   RecipientConnectData,
   ChatData,
   RecipientDisconnectData,
+  PostConnectinfo,
 } from '../../../shared/socketInterface/types';
 
 import { SERVER_URL } from '../constants';
@@ -98,6 +99,15 @@ class SocketFactory {
     };
   }
 
+  public addOnPostConnectInfoEvent(
+    callback: (info: PostConnectinfo) => void,
+  ): () => void {
+    this.socket.on('postConnectInfo', callback);
+    return () => {
+      this.socket.off('postConnectInfo', callback);
+    };
+  }
+
   // Emitter...
   public emitUserDetails(data: UserDetailsData): void {
     this.socket.emit('userDetails', data);
@@ -117,6 +127,10 @@ class SocketFactory {
 
   public emitSdpAnswer(ans: RTCSessionDescription): void {
     this.socket.emit('sdpAnswer', ans);
+  }
+
+  public emitPostConnectInfo(info: PostConnectinfo): void {
+    this.socket.emit('postConnectInfo', info);
   }
 }
 

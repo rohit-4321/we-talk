@@ -1,4 +1,5 @@
 import { atom } from 'recoil';
+import { PostConnectinfo } from '../../../shared/socketInterface/types';
 
 export type IChatMessage = {
   message: string,
@@ -16,5 +17,10 @@ export const AllMessageAtom = atom<IChatMessage[]>({
 
 export const RecipientDataAtom = atom<IRecipientData | null>({
   key: 'recipientData',
+  default: null,
+});
+
+export const PostConnectInfoAtom = atom<PostConnectinfo | null>({
+  key: 'postConnectInfo',
   default: null,
 });

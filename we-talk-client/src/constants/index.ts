@@ -1,5 +1,4 @@
 export const SERVER_URL = 'http://localhost:3000';
-export const NAME = 'Rohit';
 export const RTC_SERVERS = {
   iceServers: [
     {
@@ -12,3 +11,19 @@ export const RTC_SERVERS = {
     },
   ],
 };
+export const AvatarNameLorelei = [
+  'Bear',
+  'Pepper',
+  'Charlie',
+  'Callie',
+  'Bandit',
+  'Gizmo',
+  'Buddy',
+  'Max',
+  'Coco',
+  'Dusty',
+];
+
+export function getRandomAvatarNameLoreleiIndex(): number {
+  return Math.floor((Math.random()) * 100) % AvatarNameLorelei.length;
+}

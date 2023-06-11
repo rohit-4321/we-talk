@@ -14,7 +14,7 @@ background-color: #121212;
 border: 1px solid rgba(255, 255, 255, 0.12);
 padding: 0 40px 40px 40px ;
 `;
-const ChatPane = styled.div`
+const MessagePane = styled.div`
 flex: 95;
 width: 100%;
 overflow-y: auto;
@@ -23,13 +23,14 @@ const InputPane = styled.div`
 flex: 5;
 width: 100%;
 `;
+
 const ChatContainerWrapper: FC<ChatContainerWrapperParams> = ({ children }) => {
   const [messageComp, inputComp] = children;
   return (
     <ChatContainerSplit>
-      <ChatPane>
+      <MessagePane>
         {messageComp}
-      </ChatPane>
+      </MessagePane>
       <InputPane>
         {inputComp}
       </InputPane>

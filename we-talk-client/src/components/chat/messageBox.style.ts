@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
 export const MessageContainer = styled.div`
-overflow-y: auto;
 display: flex;
 flex-direction: column;
+overflow-y: auto;
 height: 100%;
 &::-webkit-scrollbar {
   display: none;

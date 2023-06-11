@@ -12,3 +12,11 @@ export interface UserDetailsData {
 export interface RecipientDisconnectData {
   userName: string
 }
+
+export interface PostConnectinfo {
+  info: {
+    avatar: {
+      seed: string,
+    }
+  }
+}
