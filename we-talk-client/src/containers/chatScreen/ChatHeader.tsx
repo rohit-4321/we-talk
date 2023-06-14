@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 import AvatarRound from '../../components/chat/AvatarRound';
 import { PostConnectInfoAtom, RecipientDataAtom } from '../../global/chat';
 import getAvatarImgUri from '../../utils/avatar';
+import ChatHeaderlayout from '../../components/layout/ChatHeaderLayout';
 
 const ChatHeader = () => {
   const recipientData = useRecoilValue(RecipientDataAtom);
@@ -14,26 +15,21 @@ const ChatHeader = () => {
     return null;
   }, [postInfo]);
   return (
-    <div
-      style={{
-        display: 'flex',
-        gap: '10px',
-        alignItems: 'center',
-        padding: '8px 10px',
-      }}
-    >
-      <AvatarRound
-        style={{
-          borderRadius: '100px',
-          width: '50px',
-          height: '50px',
-          userSelect: 'none',
-        }}
-        imgUri={avatarUri ? getAvatarImgUri(avatarUri) : ''}
+    <ChatHeaderlayout>
+      <>
+        <AvatarRound
+          style={{
+            borderRadius: '100px',
+            width: '50px',
+            height: '50px',
+            userSelect: 'none',
+          }}
+          imgUri={avatarUri ? getAvatarImgUri(avatarUri) : ''}
+        />
+        <span>{recipientData !== null ? recipientData.recipientName : '-'}</span>
 
-      />
-      <span>{recipientData !== null ? recipientData.recipientName : '-'}</span>
-    </div>
+      </>
+    </ChatHeaderlayout>
   );
 };
 

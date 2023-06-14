@@ -12,11 +12,13 @@ display: flex;
 flex-direction: column;
 background-color: #121212;
 border: 1px solid rgba(255, 255, 255, 0.12);
-padding: 0 40px 40px 40px ;
+gap: 1rem;
+padding: 40px 40px 40px 40px ;
 `;
 const MessagePane = styled.div`
 flex: 95;
 width: 100%;
+background-color: #1a1a1a;
 overflow-y: auto;
 `;
 const InputPane = styled.div`
