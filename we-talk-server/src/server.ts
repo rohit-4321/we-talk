@@ -61,8 +61,6 @@ io.on('connection', (socket) => {
   })
 
   socket.on('privateMessage', (chatData) => {
-    console.log(`First id ${socket.data.recipientId}`);
-    console.log(`Second id ${io.sockets.sockets.get(socket.data.recipientId).id}`);
     if(socket.data.recipientId){
       socket.to(socket.data.recipientId).emit('privateMessage' , {
         message: chatData.message

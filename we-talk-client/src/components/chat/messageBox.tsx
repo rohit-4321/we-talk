@@ -25,10 +25,12 @@ export const MessageBox: FC<MessageBoxProps> = ({
   } = useScrollRef<HTMLDivElement>(AUTO_SCROLL_THRESHOLD);
 
   const [isDownArrowVisible, setDownArrowVisible] = useState(false);
+  const [unseenMessageCount, setUnseenMessageCount] = useState(0);
 
   useEffect(() => {
     const scrollEndListenerCleanUp = onScrollEndListener(() => {
       setDownArrowVisible(false);
+      setUnseenMessageCount(0);
     });
     return () => {
       scrollEndListenerCleanUp();
@@ -38,8 +40,10 @@ export const MessageBox: FC<MessageBoxProps> = ({
   useEffect(() => {
     scrollBottomUnderThreshold(() => {
       setDownArrowVisible(true);
+      setUnseenMessageCount((count) => count + 1);
     }, () => {
       setDownArrowVisible(false);
+      setUnseenMessageCount(0);
     });
   }, [allMessage, scrollBottomUnderThreshold]);
 
@@ -70,7 +74,7 @@ export const MessageBox: FC<MessageBoxProps> = ({
           }}
 
         >
-          <MoreMessageArrow onClick={scrollBottom} />
+          <MoreMessageArrow onClick={scrollBottom} messageCount={unseenMessageCount} />
         </div>
         )
       }
