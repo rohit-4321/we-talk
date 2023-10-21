@@ -7,17 +7,23 @@ interface PanelWrapperProps {
 }
 const SplitChatScreen = styled.div`
 width: 100%;
-height: 100vh;
+height: calc(100vh - 2px);
 background-color: transparent;
-/* background-image: linear-gradient(to right, #003c58, #063450, #0b2c47, #0d243e, #0e1c35); */
 display: flex;
-/* gap: 10px; */
+@media (max-width: 800px) {
+  flex-direction: column;
+}
 `;
 const PaneVideo = styled.div`
-flex: 3;
+flex-basis: 30%;
+flex-grow: 0;
+flex-shrink: 0;
 `;
 const PaneChat = styled.div`
-flex: 7;
+flex-basis: 70%;
+flex-grow: 0;
+flex-shrink: 0;
+overflow: auto;
 `;
 const PanelWrapper:FC<PanelWrapperProps> = ({ children }) => {
   const [Left, Right] = children;

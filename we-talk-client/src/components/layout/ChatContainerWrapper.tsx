@@ -10,10 +10,8 @@ width: 100%;
 height: 100%;
 display: flex;
 flex-direction: column;
-background-color: #121212;
 border: 1px solid rgba(255, 255, 255, 0.12);
 gap: 1rem;
-padding: 40px 40px 40px 40px ;
 `;
 const MessagePane = styled.div`
 flex: 95;
@@ -22,7 +20,9 @@ background-color: #1a1a1a;
 overflow-y: auto;
 `;
 const InputPane = styled.div`
-flex: 5;
+flex-basis: 3rem;
+flex-shrink: 0;
+flex-grow: 0;
 width: 100%;
 `;
 

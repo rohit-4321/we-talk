@@ -9,6 +9,9 @@ const VideoLayoutSplit = styled.div`
 display: flex;
 flex-direction: column;
 height: 100%;
+@media (max-width: 800px) {
+  flex-direction: row;
+}
 `;
 const VideoPane = styled.div`
 flex: 1;
