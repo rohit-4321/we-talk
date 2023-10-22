@@ -1,11 +1,6 @@
 ## WE Talk 
-This project is a video calling chat app.
-We can talk to random strangers and chat with them
-Basic working is done
-I am using WebRTC for video sharing and socket.io for real time communication.
-
-Currently working on the responsivness and trying to make it more mobile friendly
-#### (Currently app is not responsive. Make sure you run it on a desktop)
+We Talk is a video calling chat app.
+We can talk to random strangers and chat with them.
 
 ## Start up guide
 1. Clone the repo on you local machine
